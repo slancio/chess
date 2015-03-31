@@ -130,7 +130,25 @@ class Knight < SteppingPiece
 end
 
 # Implement this Last
-class PawnPiece < Piece
+class PawnPiece < SteppingPiece
+
+  # two possible ways of doing this, list possible moves in constant
+  # and check with valid moves  OR
+  # always check one move forward,
+  #   then check if diagonal capture possible
+  #   and allow move two from starting row.
+
+  # STEP_MOVES = []
+
+  def valid_moves
+    # selects possible_moves down to moves that
+    # 1) don't result in check
+    # 2) can only move diagonally to capture
+    # 3) can only move forward twice from its starting row
+    # 4) no piece blocking
+    # 5) end_pos is empty
+    # uses duped board to hypothetically execute move and evaluate
+  end
 
 end
 
