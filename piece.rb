@@ -130,7 +130,7 @@ class Knight < SteppingPiece
 end
 
 # Implement this Last
-class PawnPiece < SteppingPiece
+class Pawn < SteppingPiece
 
   # two possible ways of doing this, list possible moves in constant
   # and check with valid moves  OR
@@ -155,18 +155,48 @@ end
 
 class Board
 
-  def self.setup_new_board
-
-  end
 
   attr_accessor :matrix
 
   def initialize(dup = false)
     @matrix = Array.new(8) { Array.new(8) { nil } }
-    self.setup_new_board unless dup
+    setup_new_board unless dup
   end
 
   #Phase III - For duped board populated with _new_ copy pieces
+  def setup_new_board
+    (0..7).each do |index|
+      @matrix[1][index] = Pawn.new(self, [1, index], :w)
+      @matrix[6][index] = Pawn.new(self, [6, index], :b)
+    end
+
+    @matrix[0][0] = Rook.new(self, [0, 0], :w)
+    @matrix[0][7] = Rook.new(self, [0, 7], :w)
+    @matrix[0][1] = Knight.new(self, [0, 1], :w)
+    @matrix[0][6] = Knight.new(self, [0, 6], :w)
+    @matrix[0][2] = Bishop.new(self, [0, 2], :w)
+    @matrix[0][5] = Bishop.new(self, [0, 5], :w)
+    @matrix[0][3] = Queen.new(self, [0, 3], :w)
+    @matrix[0][4] = King.new(self, [0, 4], :w)
+
+    @matrix[7][0] = Rook.new(self, [7, 0], :b)
+    @matrix[7][7] = Rook.new(self, [7, 7], :b)
+    @matrix[7][1] = Knight.new(self, [7, 1], :b)
+    @matrix[7][6] = Knight.new(self, [7, 6], :b)
+    @matrix[7][2] = Bishop.new(self, [7, 2], :b)
+    @matrix[7][5] = Bishop.new(self, [7, 5], :b)
+    @matrix[7][3] = Queen.new(self, [7, 3], :b)
+    @matrix[7][4] = King.new(self, [7, 4], :b)
+
+    # (0..7).each do |index|
+    #   idx2 = 7 - index
+    #   case index
+    #   when 0
+    #     @matrix[0][index] = Rook.new(self, [0, index], :w)
+    #     @matrix[0][idx2] = Rook.new(self, [0, idx2], :w)
+
+  end
+
   def populate_duped_pieces
   end
 
