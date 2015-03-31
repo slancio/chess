@@ -29,6 +29,11 @@ class Piece
     # uses duped board to hypothetically execute move and evaluate
   end
 
+  def [](pos)
+    row, col = pos[0], pos[1]
+    @position[row][col]
+  end
+
   def on_board?(pos)
     pos.all? { |i| i.between?(0,7) }
   end
@@ -38,21 +43,14 @@ end
 # Implement first
 class SlidingPiece < Piece
 
+  DIAGONAL = [[1,1], [1,-1], [-1,1], [-1,-1]]
+
   # attr_reader :move_dir
 
   def moves
     possible_moves = []
     if move_dirs.include?(:diagonal)
-      i = 0
-      loop do
-        end_pos = [position[0] - i, position[1] - i]
-        if on_board?(end_pos)
-          possible_moves << end_pos
-          i += 1
-        else
-          break
-        end
-      end
+      possible_moves.concat(get_diagonals)
     end
 
     if move_dirs.include? :horizontal
@@ -69,6 +67,19 @@ class SlidingPiece < Piece
 
   end
 
+  def get_diagonals
+    diagonals = []
+    DIAGONAL.each do |direction|
+      new_pos = position
+      is_on_board = true
+      while is_on_board
+        new_pos = [new_pos[0] + direction[0], new_pos[1] + direction[1]]
+        is_on_board = on_board?(new_pos)
+        diagonals << new_pos if is_on_board
+      end
+    end
+    diagonals
+  end
 
 end
 
