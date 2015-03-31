@@ -22,7 +22,7 @@ class Piece
   end
 
   def valid_moves
-    moves
+    raise NotImplementedError
     # selects possible_moves down to moves that
     # 1) don't result in check
     # 2) no piece blocking
@@ -68,7 +68,13 @@ class SlidingPiece < Piece
       while is_on_board
         new_pos = [new_pos[0] + direction[0], new_pos[1] + direction[1]]
         is_on_board = on_board?(new_pos)
-        moves << new_pos if is_on_board
+        if board[new_pos].nil?
+          moves << new_pos if is_on_board
+        else
+          break if board[new_pos].color == color
+          moves << new_pos if is_on_board
+          break
+        end
       end
     end
     moves
@@ -85,6 +91,22 @@ class Bishop < SlidingPiece
   def move_dirs
     [:diagonal]
   end
+
+  def valid_moves
+    blocked_moves = []
+    moves.select do |move|
+      unless board[move].nil? && !move_into_check(move)
+        blocked_moves << move unless board[move].nil?
+      end
+    end
+    # selects possible_moves down to moves that
+    # 1) don't result in check
+    # 2) no piece blocking
+    # 3) end_pos is empty
+    # uses duped board to hypothetically execute move and evaluate
+
+  end
+
 
 end
 
@@ -111,6 +133,7 @@ class SteppingPiece < Piece
     directions.each do |direction|
       new_pos = position
       new_pos = [new_pos[0] + direction[0], new_pos[1] + direction[1]]
+      next if board[new_pos].color == color
       moves << new_pos if on_board?(new_pos)
     end
     moves

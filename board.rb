@@ -79,9 +79,9 @@ class Board
 
     # start_pos = @matrix[start].position
     # start_pos = [start[0], start[1]]
-    piece = matrix[start[0], start[1]]
-    matrix[end_pos[0], end_pos[1]] = piece
-    matrix[start[0], start[1]] = nil
+    piece = self[start]
+    self[end_pos] = piece
+    self[start] = nil
     piece.position = end_pos
   end
 
