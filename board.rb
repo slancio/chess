@@ -12,27 +12,29 @@ class Board
   #Phase III - For duped board populated with _new_ copy pieces
   def setup_new_board
     (0..7).each do |index|
-      @matrix[1, index] = Pawn.new(self, [1, index], :b)
-      @matrix[6, index] = Pawn.new(self, [6, index], :w)
+      self[[1, index]] = Pawn.new(self, [1, index], :b)
+      self[[6, index]] = Pawn.new(self, [6, index], :w)
     end
 
-    @matrix[0, 0] = Rook.new(self, [0, 0], :b)
-    @matrix[0, 7] = Rook.new(self, [0, 7], :b)
-    @matrix[0, 1] = Knight.new(self, [0, 1], :b)
-    @matrix[0, 6] = Knight.new(self, [0, 6], :b)
-    @matrix[0, 2] = Bishop.new(self, [0, 2], :b)
-    @matrix[0, 5] = Bishop.new(self, [0, 5], :b)
-    @matrix[0, 3] = Queen.new(self, [0, 3], :b)
-    @matrix[0, 4] = King.new(self, [0, 4], :b)
+    self[[0, 0]] = Rook.new(self, [0, 0], :b)
+    self[[0, 7]] = Rook.new(self, [0, 7], :b)
+    self[[0, 1]] = Knight.new(self, [0, 1], :b)
+    self[[0, 6]] = Knight.new(self, [0, 6], :b)
+    self[[0, 2]] = Bishop.new(self, [0, 2], :b)
+    self[[0, 5]] = Bishop.new(self, [0, 5], :b)
+    self[[0, 3]] = Queen.new(self, [0, 3], :b)
+    self[[0, 4]] = King.new(self, [0, 4], :b)
 
-    @matrix[7, 0] = Rook.new(self, [7, 0], :w)
-    @matrix[7, 7] = Rook.new(self, [7, 7], :w)
-    @matrix[7, 1] = Knight.new(self, [7, 1], :w)
-    @matrix[7, 6] = Knight.new(self, [7, 6], :w)
-    @matrix[7, 2] = Bishop.new(self, [7, 2], :w)
-    @matrix[7, 5] = Bishop.new(self, [7, 5], :w)
-    @matrix[7, 3] = Queen.new(self, [7, 3], :w)
-    @matrix[7, 4] = King.new(self, [7, 4], :w)
+    self[[7, 0]] = Rook.new(self, [7, 0], :w)
+    self[[7, 7]] = Rook.new(self, [7, 7], :w)
+    self[[7, 1]] = Knight.new(self, [7, 1], :w)
+    self[[7, 6]] = Knight.new(self, [7, 6], :w)
+    self[[7, 2]] = Bishop.new(self, [7, 2], :w)
+    self[[7, 5]] = Bishop.new(self, [7, 5], :w)
+    self[[7, 3]] = Queen.new(self, [7, 3], :w)
+    self[[7, 4]] = King.new(self, [7, 4], :w)
+
+
 
     # (0..7).each do |index|
     #   idx2 = 7 - index
@@ -102,7 +104,12 @@ class Board
     row, col = pos[0], pos[1]
     @matrix[row][col]
   end
-  
+
+  def []=(pos, piece)
+    row, col = pos[0], pos[1]
+    @matrix[row][col] = piece
+  end
+
 end
 
 class Game
