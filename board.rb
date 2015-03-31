@@ -12,34 +12,34 @@ class Board
   #Phase III - For duped board populated with _new_ copy pieces
   def setup_new_board
     (0..7).each do |index|
-      @matrix[1][index] = Pawn.new(self, [1, index], :b)
-      @matrix[6][index] = Pawn.new(self, [6, index], :w)
+      @matrix[1, index] = Pawn.new(self, [1, index], :b)
+      @matrix[6, index] = Pawn.new(self, [6, index], :w)
     end
 
-    @matrix[0][0] = Rook.new(self, [0, 0], :b)
-    @matrix[0][7] = Rook.new(self, [0, 7], :b)
-    @matrix[0][1] = Knight.new(self, [0, 1], :b)
-    @matrix[0][6] = Knight.new(self, [0, 6], :b)
-    @matrix[0][2] = Bishop.new(self, [0, 2], :b)
-    @matrix[0][5] = Bishop.new(self, [0, 5], :b)
-    @matrix[0][3] = Queen.new(self, [0, 3], :b)
-    @matrix[0][4] = King.new(self, [0, 4], :b)
+    @matrix[0, 0] = Rook.new(self, [0, 0], :b)
+    @matrix[0, 7] = Rook.new(self, [0, 7], :b)
+    @matrix[0, 1] = Knight.new(self, [0, 1], :b)
+    @matrix[0, 6] = Knight.new(self, [0, 6], :b)
+    @matrix[0, 2] = Bishop.new(self, [0, 2], :b)
+    @matrix[0, 5] = Bishop.new(self, [0, 5], :b)
+    @matrix[0, 3] = Queen.new(self, [0, 3], :b)
+    @matrix[0, 4] = King.new(self, [0, 4], :b)
 
-    @matrix[7][0] = Rook.new(self, [7, 0], :w)
-    @matrix[7][7] = Rook.new(self, [7, 7], :w)
-    @matrix[7][1] = Knight.new(self, [7, 1], :w)
-    @matrix[7][6] = Knight.new(self, [7, 6], :w)
-    @matrix[7][2] = Bishop.new(self, [7, 2], :w)
-    @matrix[7][5] = Bishop.new(self, [7, 5], :w)
-    @matrix[7][3] = Queen.new(self, [7, 3], :w)
-    @matrix[7][4] = King.new(self, [7, 4], :w)
+    @matrix[7, 0] = Rook.new(self, [7, 0], :w)
+    @matrix[7, 7] = Rook.new(self, [7, 7], :w)
+    @matrix[7, 1] = Knight.new(self, [7, 1], :w)
+    @matrix[7, 6] = Knight.new(self, [7, 6], :w)
+    @matrix[7, 2] = Bishop.new(self, [7, 2], :w)
+    @matrix[7, 5] = Bishop.new(self, [7, 5], :w)
+    @matrix[7, 3] = Queen.new(self, [7, 3], :w)
+    @matrix[7, 4] = King.new(self, [7, 4], :w)
 
     # (0..7).each do |index|
     #   idx2 = 7 - index
     #   case index
     #   when 0
-    #     @matrix[0][index] = Rook.new(self, [0, index], :w)
-    #     @matrix[0][idx2] = Rook.new(self, [0, idx2], :w)
+    #     @matrix[0, index] = Rook.new(self, [0, index], :w)
+    #     @matrix[0, idx2] = Rook.new(self, [0, idx2], :w)
 
   end
 
@@ -77,11 +77,10 @@ class Board
 
     # start_pos = @matrix[start].position
     # start_pos = [start[0], start[1]]
-    piece = @matrix[start[0]][start[1]]
-    @matrix[end_pos[0]][end_pos[1]] = piece
-    @matrix[start[0]][start[1]] = nil
+    piece = matrix[start[0], start[1]]
+    matrix[end_pos[0], end_pos[1]] = piece
+    matrix[start[0], start[1]] = nil
     piece.position = end_pos
-
   end
 
   # Phase IV
@@ -90,7 +89,7 @@ class Board
   end
 
   def pieces_of(color)
-    @matrix.flatten.compact.select do |piece|
+    matrix.flatten.compact.select do |piece|
       piece.color == color
     end
   end
@@ -99,11 +98,11 @@ class Board
     color == :w ? :b : :w
   end
 
-  # def [](pos)
-  #   row, col = pos[0], pos[1]
-  #   @matrix[row][col]
-  # end
-
+  def [](pos)
+    row, col = pos[0], pos[1]
+    @matrix[row][col]
+  end
+  
 end
 
 class Game
