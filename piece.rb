@@ -43,67 +43,89 @@ end
 # Implement first
 class SlidingPiece < Piece
 
-  DIAGONAL = [[1,1], [1,-1], [-1,1], [-1,-1]]
-
-  # attr_reader :move_dir
+  DIAGONAL = [[1, 1], [1, -1], [-1, 1], [-1, -1]]
+  HORIZONTAL = [[1, 0], [-1, 0]]
+  VERTICAL = [[0, 1], [0, -1]]
 
   def moves
     possible_moves = []
-    if move_dirs.include?(:diagonal)
-      possible_moves.concat(get_diagonals)
-    end
-
-    if move_dirs.include? :horizontal
-    end
-
-    if move_dirs.include? :vertical
-    end
-
-
+    possible_moves += move_vector(DIAGONAL) if move_dirs.include?(:diagonal)
+    possible_moves += move_vector(HORIZONTAL) if move_dirs.include?(:horizontal)
+    possible_moves += move_vector(VERTICAL) if move_dirs.include?(:vertical)
     possible_moves
   end
 
-  def move_dirs # diagonal, horizontal/vertical, both
-
-  end
-
-  def get_diagonals
-    diagonals = []
-    DIAGONAL.each do |direction|
+  def move_vector(directions)
+    moves = []
+    directions.each do |direction|
       new_pos = position
       is_on_board = true
       while is_on_board
         new_pos = [new_pos[0] + direction[0], new_pos[1] + direction[1]]
         is_on_board = on_board?(new_pos)
-        diagonals << new_pos if is_on_board
+        moves << new_pos if is_on_board
       end
     end
-    diagonals
+    moves
   end
 
 end
 
+# Can override superclass methods
+# def dup(new_board)
+#   self.class.New(new_board, self.position, self.color, ...)
+# end
 class Bishop < SlidingPiece
 
   def move_dirs
-    # Diagonal
-    return [:diagonal]
+    [:diagonal]
   end
 
 end
 
 class Rook < SlidingPiece
 
+  def move_dirs
+    [:horizontal, :vertical]
+  end
 
 end
+
 class Queen < SlidingPiece
-  # Can override superclass methods
-  # def dup(new_board)
-  #   self.class.New(new_board, self.position, self.color, ...)
-  # end
+
+  def move_dirs
+    [:diagonal, :horizontal, :vertical]
+  end
+
 end
 
 class SteppingPiece < Piece
+
+  def move_step(directions)
+    moves = []
+    directions.each do |direction|
+      new_pos = position
+      new_pos = [new_pos[0] + direction[0], new_pos[1] + direction[1]]
+      moves << new_pos if on_board?(new_pos)
+    end
+    moves
+  end
+
+  def moves
+    move_step(self.class::STEP_MOVES)
+  end
+end
+
+class King < SteppingPiece
+  STEP_MOVES = [[1, 1], [1, -1], [-1, 1], [-1, -1],
+                [1, 0], [-1, 0], [0, 1], [0, -1]]
+
+
+end
+
+class Knight < SteppingPiece
+  STEP_MOVES = [[-2, -1], [-2,  1], [-1, -2], [-1,  2],
+                [ 1, -2], [ 1,  2], [ 2, -1], [ 2,  1]]
 
 end
 
