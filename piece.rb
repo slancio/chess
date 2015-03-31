@@ -8,7 +8,6 @@ class Piece
   end
 
   def moves # returns an array of possible move positions
-
   end
 
   # Phase III
@@ -17,22 +16,80 @@ class Piece
     # Call board.in_check?
   end
 
+  # Todo, make sure dup works for all subclasses
+  def dup(new_board)
+    self.class.New(new_board, self.position, self.color)
+  end
+
+  def valid_moves
+    # selects possible_moves down to moves that
+    # 1) don't result in check
+    # 2) no piece blocking
+    # 3) end_pos is empty
+    # uses duped board to hypothetically execute move and evaluate
+  end
+
+  def on_board?(pos)
+    pos.all? { |i| i.between?(0,7) }
+  end
+
 end
 
 # Implement first
 class SlidingPiece < Piece
 
+  # attr_reader :move_dir
+
+  def moves
+    possible_moves = []
+    if move_dirs.include?(:diagonal)
+      i = 0
+      loop do
+        end_pos = [position[0] - i, position[1] - i]
+        if on_board?(end_pos)
+          possible_moves << end_pos
+          i += 1
+        else
+          break
+        end
+      end
+    end
+
+    if move_dirs.include? :horizontal
+    end
+
+    if move_dirs.include? :vertical
+    end
+
+
+    possible_moves
+  end
+
   def move_dirs # diagonal, horizontal/vertical, both
 
   end
 
+
 end
 
 class Bishop < SlidingPiece
+
+  def move_dirs
+    # Diagonal
+    return [:diagonal]
+  end
+
 end
+
 class Rook < SlidingPiece
+
+
 end
 class Queen < SlidingPiece
+  # Can override superclass methods
+  # def dup(new_board)
+  #   self.class.New(new_board, self.position, self.color, ...)
+  # end
 end
 
 class SteppingPiece < Piece
@@ -62,6 +119,7 @@ class Board
   def populate_duped_pieces
   end
 
+  # TODO question if need here or can move all to Piece class
   def dup
     # dup_board = Board.new(true)
     #   populate_duped_pieces
@@ -75,10 +133,35 @@ class Board
   end
 
   def move(start, end_pos)
+    # Executes move only if Piece.valid_moves.includes? move
     # updates matrix
     # updates moved Piece's position
     # raise exception if a) no piece at start
     # =>                 b) piece can't move to end_pos (not in possible_moves)
   end
+
+  # Phase IV
+  def checkmate?(color)
+    # checks each piece of color for valid moves, mate if none
+  end
+
+end
+
+class Game
+
+  def initialize(board = nil)
+    if board.nil?
+      @board = Board.new
+    else
+      @board = board
+    end
+  end
+
+#
+#   Write a Game class that constructs a Board object, that alternates between players (assume two human players for now) prompting them to move. The Game should handle exceptions from Board#move and report them.
+#
+# It is fine to write a HumanPlayer class with one method (#play_turn). In that case, Game#play method just continuously calls play_turn.
+#
+# It is not a requirement to write a ComputerPlayer, but you may do this as a bonus. If you write your Game class cleanly, it should be relatively straightforward to add new player types at a later date.
 
 end
