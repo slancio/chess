@@ -22,6 +22,7 @@ class Piece
   end
 
   def valid_moves
+    moves
     # selects possible_moves down to moves that
     # 1) don't result in check
     # 2) no piece blocking
@@ -36,6 +37,10 @@ class Piece
 
   def on_board?(pos)
     pos.all? { |i| i.between?(0,7) }
+  end
+
+  def inspect
+    { :position => position, :color => color }.inspect
   end
 
 end
@@ -138,9 +143,10 @@ class Pawn < SteppingPiece
   #   then check if diagonal capture possible
   #   and allow move two from starting row.
 
-  # STEP_MOVES = []
+  STEP_MOVES = [[0, 0]]
 
   def valid_moves
+    moves
     # selects possible_moves down to moves that
     # 1) don't result in check
     # 2) can only move diagonally to capture
@@ -211,6 +217,16 @@ class Board
   def in_check?(color)
     # 1 - find king position
     # 2 - see if any opponent pieces have king_pos in possible_moves
+    color_king = pieces_of(color).select { |piece| piece.is_a?(King) }
+    p color_king
+
+    king_pos = color_king[0].position
+
+    pieces_of(toggle_color(color)).each do |piece|
+      return true if piece.valid_moves.include?(king_pos)
+    end
+
+    false
   end
 
   def move(start, end_pos)
@@ -224,6 +240,16 @@ class Board
   # Phase IV
   def checkmate?(color)
     # checks each piece of color for valid moves, mate if none
+  end
+
+  def pieces_of(color)
+    @matrix.flatten.compact.select do |piece|
+      piece.color == color
+    end
+  end
+
+  def toggle_color(color)
+    color == :w ? :b : :w
   end
 
 end
