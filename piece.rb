@@ -65,9 +65,11 @@ class SlidingPiece < Piece
     directions.each do |direction|
       new_pos = position
       is_on_board = true
+
       while is_on_board
         new_pos = [new_pos[0] + direction[0], new_pos[1] + direction[1]]
         is_on_board = on_board?(new_pos)
+
         if board[new_pos].nil?
           moves << new_pos if is_on_board
         else
@@ -75,8 +77,10 @@ class SlidingPiece < Piece
           moves << new_pos if is_on_board
           break
         end
+
       end
     end
+
     moves
   end
 
@@ -132,10 +136,17 @@ class SteppingPiece < Piece
     moves = []
     directions.each do |direction|
       new_pos = position
+
       new_pos = [new_pos[0] + direction[0], new_pos[1] + direction[1]]
-      next if board[new_pos].color == color
-      moves << new_pos if on_board?(new_pos)
+
+      if board[new_pos].nil?
+        moves << new_pos if on_board?(new_pos)
+      else
+        next if board[new_pos].color == color
+        moves << new_pos if on_board?(new_pos)
+      end
     end
+
     moves
   end
 

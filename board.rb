@@ -34,8 +34,6 @@ class Board
     self[[7, 3]] = Queen.new(self, [7, 3], :w)
     self[[7, 4]] = King.new(self, [7, 4], :w)
 
-
-
     # (0..7).each do |index|
     #   idx2 = 7 - index
     #   case index
