@@ -3,6 +3,8 @@ require_relative 'sliding_piece'
 require_relative 'stepping_piece'
 require_relative 'pawn'
 require_relative 'board'
+require_relative 'player'
+
 require 'colorize'
 
 class Game
@@ -10,28 +12,36 @@ class Game
   attr_reader :board, :white, :black
 
   def initialize( board = Board.new,
-                  white = HumanPlayer.new(:w),
-                  black = HumanPlayer.new(:b) )
+                  white = HumanPlayer.new(board, :white),
+                  black = HumanPlayer.new(board, :black) )
 
     @board, @white, @black = board, white, black
-
   end
 
   def play
 
+    end_str = ""
     turn_order = [white, black]
     loop do
-      turn_order.first.play_turn(board)
-      turn_order.rotate
+      turn_order.first.play_turn
+      if board.checkmate?(:b)
+        end_str = " White has checkmated Black!"
+        break
+      elsif board.checkmate?(:w)
+        end_str = " Black has checkmated White!"
+        break
+      end
+      turn_order.rotate!
     end
 
+    # TODO let move only the color's turn
+    board.display
+    puts end_str
   end
 
-#
-#   Write a Game class that constructs a Board object, that alternates between players (assume two human players for now) prompting them to move. The Game should handle exceptions from Board#move and report them.
-#
-# It is fine to write a HumanPlayer class with one method (#play_turn). In that case, Game#play method just continuously calls play_turn.
-#
-# It is not a requirement to write a ComputerPlayer, but you may do this as a bonus. If you write your Game class cleanly, it should be relatively straightforward to add new player types at a later date.
+end
 
+if __FILE__ == $PROGRAM_NAME
+  g = Game.new
+  g.play
 end

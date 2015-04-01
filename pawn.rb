@@ -10,7 +10,8 @@ class Pawn < Piece
     new_moves = []
     fwd_pos = [position[0] + i, position[1]]
     new_moves << fwd_pos if on_board?(fwd_pos) && board[fwd_pos].nil?
-    new_moves << [position[0] + 2 * i, position[1]] if position[0] == row
+    two_fwd_pos = [position[0] + 2 * i, position[1]]
+    new_moves << two_fwd_pos if position[0] == row && board[two_fwd_pos].nil?
 
     [-1, 1].each do |j|
       diag_pos = [position[0] + i, position[1] + j]
