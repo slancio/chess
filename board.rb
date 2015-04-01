@@ -77,12 +77,12 @@ class Board
   def in_check?(color)
     # 1 - find king position
     # 2 - see if any opponent pieces have king_pos in possible_moves
-    color_king = pieces_of(color).select { |piece| piece.is_a?(King) }
 
-    king_pos = color_king[0].position
+    color_king = pieces_of(color).find { |piece| piece.is_a?(King) }
+    king_pos = color_king.position
 
     pieces_of(toggle_color(color)).each do |piece|
-      return true if piece.valid_moves.include?(king_pos)
+      return true if piece.moves.include?(king_pos)
     end
 
     false

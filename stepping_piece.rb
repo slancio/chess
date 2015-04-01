@@ -1,3 +1,5 @@
+require_relative 'piece'
+
 class SteppingPiece < Piece
 
   def move_step(directions)
@@ -6,12 +8,13 @@ class SteppingPiece < Piece
       new_pos = position
 
       new_pos = [new_pos[0] + direction[0], new_pos[1] + direction[1]]
+      next unless on_board?(new_pos)
 
       if board[new_pos].nil?
-        moves << new_pos if on_board?(new_pos)
+        moves << new_pos
       else
         next if board[new_pos].color == color
-        moves << new_pos if on_board?(new_pos)
+        moves << new_pos
       end
     end
 

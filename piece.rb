@@ -12,6 +12,9 @@ class Piece
 
   # Phase III
   def move_into_check?(pos)
+    new_board = board.dup
+    new_board.move(self.position, pos)
+    new_board.in_check?(self.color)
     # new_board = board.dup
     # Dup board and perform move
     # Call board.in_check?
@@ -22,13 +25,19 @@ class Piece
     self.class.New(new_board, self.position, self.color)
   end
 
+
   def valid_moves
-    raise NotImplementedError
+    [].tap do |valid_pos|
+      moves.select do |move|
+        valid_pos << move unless move_into_check?(move)
+      end
+    end
     # selects possible_moves down to moves that
-    # 1) don't result in check
+    # 1) don't result in check (only thing that happens now)
     # 2) no piece blocking
     # 3) end_pos is empty
     # uses duped board to hypothetically execute move and evaluate
+
   end
 
   def [](pos)

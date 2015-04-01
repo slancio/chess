@@ -37,6 +37,20 @@ class SlidingPiece < Piece
     moves
   end
 
+  def valid_moves
+    [].tap do |valid_pos|
+      moves.select do |move|
+        valid_pos << move unless move_into_check?(move)
+      end
+    end
+    # selects possible_moves down to moves that
+    # 1) don't result in check (only thing that happens now)
+    # 2) no piece blocking
+    # 3) end_pos is empty
+    # uses duped board to hypothetically execute move and evaluate
+
+  end
+
 end
 
 # Can override superclass methods
@@ -48,22 +62,6 @@ class Bishop < SlidingPiece
   def move_dirs
     [:diagonal]
   end
-
-  def valid_moves
-    blocked_moves = []
-    moves.select do |move|
-      unless board[move].nil? && !move_into_check(move)
-        blocked_moves << move unless board[move].nil?
-      end
-    end
-    # selects possible_moves down to moves that
-    # 1) don't result in check
-    # 2) no piece blocking
-    # 3) end_pos is empty
-    # uses duped board to hypothetically execute move and evaluate
-
-  end
-
 
 end
 
