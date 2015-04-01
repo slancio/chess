@@ -7,46 +7,27 @@ class Piece
     @board, @position, @color = board, position, color
   end
 
-  def moves # returns an array of possible move positions
+  def valid_moves
+    moves.select { |move| valid_pos << move unless move_into_check?(move) }
   end
 
-  # Phase III
-  def move_into_check?(pos)
-    new_board = board.dup
-    new_board.god_move(self.position, pos)
-    new_board.in_check?(self.color)
-    # new_board = board.dup
-    # Dup board and perform move
-    # Call board.in_check?
+  def on_board?(pos)
+    pos.all? { |i| i.between?(0,7) }
   end
 
-  # Todo, make sure dup works for all subclasses
   def dup(new_board)
     self.class.New(new_board, self.position, self.color)
   end
 
-
-  def valid_moves
-    [].tap do |valid_pos|
-      moves.select do |move|
-        valid_pos << move unless move_into_check?(move)
-      end
-    end
-    # selects possible_moves down to moves that
-    # 1) don't result in check (only thing that happens now)
-    # 2) no piece blocking
-    # 3) end_pos is empty
-    # uses duped board to hypothetically execute move and evaluate
-
+  def move_into_check?(pos)
+    new_board = board.dup
+    new_board.god_move(self.position, pos)
+    new_board.in_check?(self.color)
   end
 
   def [](pos)
     row, col = pos[0], pos[1]
     @position[row][col]
-  end
-
-  def on_board?(pos)
-    pos.all? { |i| i.between?(0,7) }
   end
 
   def inspect

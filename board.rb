@@ -38,42 +38,7 @@ class Board
 
   end
 
-  def dup
-    dup_board = Board.new(true)
-
-    0.upto(7) do |row|
-      0.upto(7) do |col|
-        pos = [row, col]
-        piece = self[pos]
-        unless piece.nil?
-          dup_board[pos] = piece.class.new(dup_board, pos, piece.color)
-        end
-      end
-    end
-
-    dup_board
-  end
-
-  def in_check?(color)
-    # 1 - find king position
-    # 2 - see if any opponent pieces have king_pos in possible_moves
-
-    color_king = pieces_of(color).find { |piece| piece.is_a?(King) }
-    king_pos = color_king.position
-
-    pieces_of(toggle_color(color)).each do |piece|
-      return true if piece.moves.include?(king_pos)
-    end
-
-    false
-  end
-
   def move(start, end_pos)
-    # Executes move only if Piece.valid_moves.includes? move
-    # updates matrix - DOING NOW
-    # updates moved Piece's position - DOING NOW
-    # raise exception if a) no piece at start
-    # =>                 b) piece can't move to end_pos (not in possible_moves)
     piece = self[start]
 
     if piece.nil?
@@ -93,10 +58,19 @@ class Board
     piece.position = end_pos
   end
 
-  # Phase IV
+  def in_check?(color)
+
+    color_king = pieces_of(color).find { |piece| piece.is_a?(King) }
+    king_pos = color_king.position
+
+    pieces_of(toggle_color(color)).each do |piece|
+      return true if piece.moves.include?(king_pos)
+    end
+
+    false
+  end
+
   def checkmate?(color)
-    # if is in check
-    # checks each piece of color for valid moves, mate if none
     if in_check?(color)
       self.pieces_of(color).each do |piece|
         return false if !piece.valid_moves.empty?
@@ -114,6 +88,22 @@ class Board
 
   def toggle_color(color)
     color == :w ? :b : :w
+  end
+
+  def dup
+    dup_board = Board.new(true)
+
+    0.upto(7) do |row|
+      0.upto(7) do |col|
+        pos = [row, col]
+        piece = self[pos]
+        unless piece.nil?
+          dup_board[pos] = piece.class.new(dup_board, pos, piece.color)
+        end
+      end
+    end
+
+    dup_board
   end
 
   def [](pos)
@@ -137,6 +127,8 @@ class Game
       @board = board
     end
   end
+
+
 
 #
 #   Write a Game class that constructs a Board object, that alternates between players (assume two human players for now) prompting them to move. The Game should handle exceptions from Board#move and report them.

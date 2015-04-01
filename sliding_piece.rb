@@ -8,14 +8,14 @@ class SlidingPiece < Piece
   VERTICAL = [[0, 1], [0, -1]]
 
   def moves
-    possible_moves = []
-    possible_moves += move_vector(DIAGONAL) if move_dirs.include?(:diagonal)
-    possible_moves += move_vector(HORIZONTAL) if move_dirs.include?(:horizontal)
-    possible_moves += move_vector(VERTICAL) if move_dirs.include?(:vertical)
-    possible_moves
+    move_list = []
+    move_list += vector(DIAGONAL) if move_dirs.include?(:diagonal)
+    move_list += vector(HORIZONTAL) if move_dirs.include?(:horizontal)
+    move_list += vector(VERTICAL) if move_dirs.include?(:vertical)
+    move_list
   end
 
-  def move_vector(directions)
+  def vector(directions)
     moves = []
     directions.each do |direction|
       new_pos = position
@@ -37,26 +37,8 @@ class SlidingPiece < Piece
     moves
   end
 
-  def valid_moves
-    [].tap do |valid_pos|
-      moves.select do |move|
-        valid_pos << move unless move_into_check?(move)
-      end
-    end
-    # selects possible_moves down to moves that
-    # 1) don't result in check (only thing that happens now)
-    # 2) no piece blocking
-    # 3) end_pos is empty
-    # uses duped board to hypothetically execute move and evaluate
-
-  end
-
 end
 
-# Can override superclass methods
-# def dup(new_board)
-#   self.class.New(new_board, self.position, self.color, ...)
-# end
 class Bishop < SlidingPiece
 
   def move_dirs
