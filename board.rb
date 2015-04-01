@@ -95,7 +95,15 @@ class Board
 
   # Phase IV
   def checkmate?(color)
+    # if is in check
     # checks each piece of color for valid moves, mate if none
+    if in_check?(color)
+      self.pieces_of(color).each do |piece|
+        return false if !piece.valid_moves.empty?
+      end
+      return true
+    end
+    false
   end
 
   def pieces_of(color)
