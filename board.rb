@@ -1,6 +1,7 @@
 require_relative 'piece'
 require_relative 'sliding_piece'
 require_relative 'stepping_piece'
+require_relative 'pawn'
 
 class Board
 
@@ -11,7 +12,6 @@ class Board
     setup_new_board unless dup
   end
 
-  #Phase III - For duped board populated with _new_ copy pieces
   def setup_new_board
     (0..7).each do |index|
       self[[1, index]] = Pawn.new(self, [1, index], :b)
@@ -36,19 +36,8 @@ class Board
     self[[7, 3]] = Queen.new(self, [7, 3], :w)
     self[[7, 4]] = King.new(self, [7, 4], :w)
 
-    # (0..7).each do |index|
-    #   idx2 = 7 - index
-    #   case index
-    #   when 0
-    #     @matrix[0, index] = Rook.new(self, [0, index], :w)
-    #     @matrix[0, idx2] = Rook.new(self, [0, idx2], :w)
-
   end
 
-  def populate_duped_pieces
-  end
-
-  # TODO question if need here or can move all to Piece class
   def dup
     dup_board = Board.new(true)
 
@@ -62,17 +51,8 @@ class Board
       end
     end
 
-    # dup_pieces = []
-    # [:w, :b].each do |color|
-    #   pieces_of(color).each do |piece|
-    #     dup_pieces << piece.class.new(dup_board, piece.position, color)
-    #   end
-    # end
-
     dup_board
   end
-
-# PHASE II
 
   def in_check?(color)
     # 1 - find king position
