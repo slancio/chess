@@ -18,12 +18,4 @@ class Pawn < Piece
     new_moves
   end
 
-  def valid_moves
-    [].tap do |valid_pos|
-      moves.select do |move|
-        valid_pos << move unless move_into_check?(move)
-      end
-    end
-  end
-
 end
