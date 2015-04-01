@@ -8,7 +8,7 @@ class Piece
   end
 
   def valid_moves
-    moves.select { |move| valid_pos << move unless move_into_check?(move) }
+    moves.select { |move| !move_into_check?(move) }
   end
 
   def on_board?(pos)

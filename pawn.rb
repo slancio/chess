@@ -2,7 +2,7 @@ require_relative 'piece'
 
 class Pawn < Piece
 
-  PICTOGRAPH = ["♙", "♟"]
+  PICTOGRAPH = [" ♙ ", " ♟ "]
 
   def moves
     i, row = self.color == :b ? [1, 1] : [-1, 6]

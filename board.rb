@@ -106,6 +106,29 @@ class Board
     dup_board
   end
 
+  def display
+    puts render
+  end
+
+  def render
+    matrix_str = "    a  b  c  d  e  f  g  h\n"
+    (0..7).each do |row|
+      line_str = " #{8 - row} "
+      (0..7).each do |col|
+        place = self[[row, col]]
+        bg_color = ((row + col) % 2 == 0) ? :light_white : :white
+        if place.nil?
+          line_str += "   ".colorize(:background => bg_color)
+        else
+          line_str += place.render.colorize(:color => :black, :background => bg_color)
+        end
+      end
+      line_str += " #{8 - row}\n"
+      matrix_str += line_str
+    end
+    matrix_str + "    a  b  c  d  e  f  g  h\n"
+  end
+
   def [](pos)
     row, col = pos[0], pos[1]
     @matrix[row][col]

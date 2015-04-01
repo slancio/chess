@@ -28,7 +28,8 @@ end
 
 class King < SteppingPiece
 
-  PICTOGRAPH = ["♔", "♚"]
+  PICTOGRAPH = [" ♔ ", " ♚ "]
+
   STEP_MOVES = [[1, 1], [1, -1], [-1, 1], [-1, -1],
                 [1, 0], [-1, 0], [0, 1], [0, -1]]
 
@@ -37,7 +38,8 @@ end
 
 class Knight < SteppingPiece
 
-  PICTOGRAPH = ["♘", "♞"]
+  PICTOGRAPH = [" ♘ ", " ♞ "]
+
   STEP_MOVES = [[-2, -1], [-2,  1], [-1, -2], [-1,  2],
                 [ 1, -2], [ 1,  2], [ 2, -1], [ 2,  1]]
 
