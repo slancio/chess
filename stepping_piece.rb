@@ -1,5 +1,3 @@
-require_relative 'piece.rb'
-
 class SteppingPiece < Piece
 
   def move_step(directions)

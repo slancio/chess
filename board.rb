@@ -1,4 +1,6 @@
 require_relative 'piece'
+require_relative 'sliding_piece'
+require_relative 'stepping_piece'
 
 class Board
 
@@ -48,8 +50,26 @@ class Board
 
   # TODO question if need here or can move all to Piece class
   def dup
-    # dup_board = Board.new(true)
-    #   populate_duped_pieces
+    dup_board = Board.new(true)
+
+    0.upto(7) do |row|
+      0.upto(7) do |col|
+        pos = [row, col]
+        piece = self[pos]
+        unless piece.nil?
+          dup_board[pos] = piece.class.new(dup_board, pos, piece.color)
+        end
+      end
+    end
+
+    # dup_pieces = []
+    # [:w, :b].each do |color|
+    #   pieces_of(color).each do |piece|
+    #     dup_pieces << piece.class.new(dup_board, piece.position, color)
+    #   end
+    # end
+
+    dup_board
   end
 
 # PHASE II
