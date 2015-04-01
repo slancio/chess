@@ -13,7 +13,7 @@ class Piece
   # Phase III
   def move_into_check?(pos)
     new_board = board.dup
-    new_board.move(self.position, pos)
+    new_board.god_move(self.position, pos)
     new_board.in_check?(self.color)
     # new_board = board.dup
     # Dup board and perform move

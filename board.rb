@@ -94,9 +94,19 @@ class Board
     # updates moved Piece's position - DOING NOW
     # raise exception if a) no piece at start
     # =>                 b) piece can't move to end_pos (not in possible_moves)
+    piece = self[start]
 
-    # start_pos = @matrix[start].position
-    # start_pos = [start[0], start[1]]
+    if piece.nil?
+      raise ArgumentError.new "No piece at start position."
+    elsif piece.valid_moves.include?(end_pos)
+      god_move(start, end_pos)
+    else
+      raise ArgumentError.new "Not a valid move."
+    end
+  end
+
+  def god_move(start, end_pos)
+
     piece = self[start]
     self[end_pos] = piece
     self[start] = nil
