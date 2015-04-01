@@ -16,7 +16,7 @@ class Piece
   end
 
   def dup(new_board)
-    self.class.New(new_board, self.position, self.color)
+    self.class.new(new_board, self.position, self.color)
   end
 
   def move_into_check?(pos)

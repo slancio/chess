@@ -1,14 +1,9 @@
-require_relative 'piece'
-require_relative 'sliding_piece'
-require_relative 'stepping_piece'
-require_relative 'pawn'
-
 class Board
 
   attr_accessor :matrix
 
   def initialize(dup = false)
-    @matrix = Array.new(8) { Array.new(8) { nil } }
+    @matrix = Array.new(8) { Array.new(8) }
     setup_new_board unless dup
   end
 
@@ -19,22 +14,22 @@ class Board
     end
 
     self[[0, 0]] = Rook.new(self, [0, 0], :b)
-    self[[0, 7]] = Rook.new(self, [0, 7], :b)
     self[[0, 1]] = Knight.new(self, [0, 1], :b)
-    self[[0, 6]] = Knight.new(self, [0, 6], :b)
     self[[0, 2]] = Bishop.new(self, [0, 2], :b)
-    self[[0, 5]] = Bishop.new(self, [0, 5], :b)
     self[[0, 3]] = Queen.new(self, [0, 3], :b)
     self[[0, 4]] = King.new(self, [0, 4], :b)
+    self[[0, 5]] = Bishop.new(self, [0, 5], :b)
+    self[[0, 6]] = Knight.new(self, [0, 6], :b)
+    self[[0, 7]] = Rook.new(self, [0, 7], :b)
 
     self[[7, 0]] = Rook.new(self, [7, 0], :w)
-    self[[7, 7]] = Rook.new(self, [7, 7], :w)
     self[[7, 1]] = Knight.new(self, [7, 1], :w)
-    self[[7, 6]] = Knight.new(self, [7, 6], :w)
     self[[7, 2]] = Bishop.new(self, [7, 2], :w)
-    self[[7, 5]] = Bishop.new(self, [7, 5], :w)
     self[[7, 3]] = Queen.new(self, [7, 3], :w)
     self[[7, 4]] = King.new(self, [7, 4], :w)
+    self[[7, 5]] = Bishop.new(self, [7, 5], :w)
+    self[[7, 6]] = Knight.new(self, [7, 6], :w)
+    self[[7, 7]] = Rook.new(self, [7, 7], :w)
 
   end
 
@@ -98,7 +93,7 @@ class Board
         pos = [row, col]
         piece = self[pos]
         unless piece.nil?
-          dup_board[pos] = piece.class.new(dup_board, pos, piece.color)
+          dup_board[pos] = piece.dup(dup_board)
         end
       end
     end
