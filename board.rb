@@ -117,24 +117,3 @@ class Board
   end
 
 end
-
-class Game
-
-  def initialize(board = nil)
-    if board.nil?
-      @board = Board.new
-    else
-      @board = board
-    end
-  end
-
-
-
-#
-#   Write a Game class that constructs a Board object, that alternates between players (assume two human players for now) prompting them to move. The Game should handle exceptions from Board#move and report them.
-#
-# It is fine to write a HumanPlayer class with one method (#play_turn). In that case, Game#play method just continuously calls play_turn.
-#
-# It is not a requirement to write a ComputerPlayer, but you may do this as a bonus. If you write your Game class cleanly, it should be relatively straightforward to add new player types at a later date.
-
-end

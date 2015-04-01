@@ -30,6 +30,10 @@ class Piece
     @position[row][col]
   end
 
+  def render
+    self.color == :w ? self.class::PICTOGRAPH.first : self.class::PICTOGRAPH.last
+  end
+
   def inspect
     { :position => position,
       :color => color,

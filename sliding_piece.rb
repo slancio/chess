@@ -41,6 +41,8 @@ end
 
 class Bishop < SlidingPiece
 
+  PICTOGRAPH = ["♗", "♝"]
+
   def move_dirs
     [:diagonal]
   end
@@ -49,6 +51,8 @@ end
 
 class Rook < SlidingPiece
 
+  PICTOGRAPH = ["♖", "♜"]
+
   def move_dirs
     [:horizontal, :vertical]
   end
@@ -56,6 +60,8 @@ class Rook < SlidingPiece
 end
 
 class Queen < SlidingPiece
+
+  PICTOGRAPH = ["♕", "♛"]
 
   def move_dirs
     [:diagonal, :horizontal, :vertical]
