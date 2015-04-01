@@ -1,3 +1,6 @@
+require_relative 'piece'
+require 'byebug'
+
 class SlidingPiece < Piece
 
   DIAGONAL = [[1, 1], [1, -1], [-1, 1], [-1, -1]]
@@ -16,20 +19,18 @@ class SlidingPiece < Piece
     moves = []
     directions.each do |direction|
       new_pos = position
-      is_on_board = true
 
-      while is_on_board
+      loop do
         new_pos = [new_pos[0] + direction[0], new_pos[1] + direction[1]]
-        is_on_board = on_board?(new_pos)
+        break unless on_board?(new_pos)
 
         if board[new_pos].nil?
-          moves << new_pos if is_on_board
+          moves << new_pos
         else
           break if board[new_pos].color == color
-          moves << new_pos if is_on_board
+          moves << new_pos
           break
         end
-
       end
     end
 
